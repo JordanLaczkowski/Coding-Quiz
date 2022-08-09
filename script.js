@@ -1,4 +1,21 @@
-var secondsLeft = 75;
+// var timeLeft = 5;
+// var element = document.getElementsByClassName("timer");
+
+// var timeEl;
+
+// var timerId = setInterval(countdown, 1000);
+// function countdown() {
+//   if (timeLeft === 0) {
+//     confirm("Times Up!");
+//     return;
+//   } else {
+//     element.innerHtml = timeLeft + " seconds remaining.";
+//     timeLeft--;
+//   }
+//   console.log(timeLeft);
+// }
+
+// var secondsLeft = 75;
 
 function setTime() {
   var timeInterval = setInterval();
@@ -94,3 +111,7 @@ if (again) {
   game();
 }
 game();
+
+start.addEventListener("click", startButton);
+
+//need to make a listenClick button for which is clicked and if it is wrong or right
