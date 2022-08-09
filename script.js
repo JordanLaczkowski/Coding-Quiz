@@ -15,10 +15,12 @@
 //   console.log(timeLeft);
 // }
 
-// var secondsLeft = 75;
+var secondsLeft = 75;
+//var timeInterval = setInterval();
+var startedQuiz = false;
+var count = 1;
 
 function setTime() {
-  var timeInterval = setInterval();
   // secondsLeft--
   timeInterval.textContent = secondsLeft + " seconds left till quiz is over.";
   if (secondsLeft === 0) {
@@ -36,7 +38,7 @@ var allQuestions = [
       C: "Application Programming Interface",
       D: "Auto Processing Interface",
     },
-    correctAnswer: "C",
+    correctAnswer: "Application Programming Interface",
   },
   {
     showQuestions: "What does DOM stand for?",
@@ -46,7 +48,7 @@ var allQuestions = [
       C: "Days on Market",
       D: "None of the Above",
     },
-    correctAnswer: "A",
+    correctAnswer: "Document Object Model",
   },
   {
     showQuestions: "For Strict Equality Comparisons, we should use:",
@@ -54,8 +56,9 @@ var allQuestions = [
       A: "=",
       B: "==",
       C: "===",
+      D: "equallllsss",
     },
-    correctAnswer: "C",
+    correctAnswer: "===",
   },
   {
     showQuestions: "What is a Boolean?",
@@ -65,15 +68,17 @@ var allQuestions = [
       C: "Booleans have no correct answers",
       D: "What is a Boolean???",
     },
-    correctAnswer: "B",
+    correctAnswer: "The value is one that can either be true or false",
   },
   {
     showQuestions: "Functions are Objects in JS.",
     showAnswers: {
       A: "True",
       B: "False",
+      C: "Neither",
+      D: "I don't know",
     },
-    correctAnswer: "A",
+    correctAnswer: "True",
   },
   {
     showQuestions:
@@ -84,9 +89,60 @@ var allQuestions = [
       C: "Both A and B",
       D: "None of the above",
     },
-    correctAnswer: "C",
+    correctAnswer: "Both A and B",
   },
 ];
+
+function startQuiz() {
+  element = document.querySelector("#welcome-page");
+  element.style.visibility = "hidden";
+  var currentQuestion;
+  console.log(allQuestions);
+  currentQuestion = allQuestions[0].showQuestions;
+  document.getElementById("current-question").innerHTML =
+    count + ". " + currentQuestion;
+  document.getElementById("option-a").innerHTML = allQuestions[0].showAnswers.A;
+  document.getElementById("option-b").innerHTML = allQuestions[0].showAnswers.B;
+  document.getElementById("option-c").innerHTML = allQuestions[0].showAnswers.C;
+  document.getElementById("option-d").innerHTML = allQuestions[0].showAnswers.D;
+  element = document.querySelector("#quiz");
+  element.style.visibility = "visible";
+}
+
+function isCorrectAnswer(answer) {
+  var selectedAnswer = answer.srcElement.innerHTML.toString();
+  var actualAnswer = allQuestions[count - 1].correctAnswer.toString();
+
+  if (selectedAnswer == actualAnswer) {
+    console.log("Right");
+    count++;
+    if (count <= 6) {
+      index = count - 1;
+      nextQuestion(index);
+    }
+  } else {
+    console.log("Wrong - timer decreases");
+    //decreaseTimer
+  }
+}
+
+function nextQuestion(index) {
+  element = document.querySelector("#quiz");
+  element.style.visibility = "hidden";
+  currentQuestion = allQuestions[index].showQuestions;
+  document.getElementById("current-question").innerHTML =
+    count + ". " + currentQuestion;
+  document.getElementById("option-a").innerHTML =
+    allQuestions[index].showAnswers.A;
+  document.getElementById("option-b").innerHTML =
+    allQuestions[index].showAnswers.B;
+  document.getElementById("option-c").innerHTML =
+    allQuestions[index].showAnswers.C;
+  document.getElementById("option-d").innerHTML =
+    allQuestions[index].showAnswers.D;
+  element = document.querySelector("#quiz");
+  element.style.visibility = "visible";
+}
 
 function showQuestions(questions, quizContainer) {
   var output = [];
@@ -101,17 +157,19 @@ function showQuestions(questions, quizContainer) {
   }
 }
 
-var stats = confirm();
-//need to make points for each question??
-//need to be able to add initials once timer/game is over
-//ask to play again?
+// var stats = confirm();
+// //need to make points for each question??
+// //need to be able to add initials once timer/game is over
+// //ask to play again?
 
-var again = confirm("Would you like to play again?");
-if (again) {
-  game();
-}
-game();
+// var again = confirm("Would you like to play again?");
+// if (again) {
+//   game();
+// }
+// game();
 
-start.addEventListener("click", startButton);
+// start.addEventListener("click", startButton);
 
 //need to make a listenClick button for which is clicked and if it is wrong or right
+
+//If clock reaches 0, then score would be 0. If there is time left by the end of the quiz, then the remaining time would be the score

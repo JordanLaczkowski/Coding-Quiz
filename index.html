@@ -13,15 +13,26 @@
       <button class="start-button">Start</button>
     </header> -->
 
-    <h1>Welcome to The Coding Quiz!</h1>
-    <h2>Click the Start button to begin.</h2>
-    <h3>
-      HEADS UP: The timer will subtract time if you answer incorrectly. Try to
-      get as many correct as you can and leave your initials at the end.
-    </h3>
-    <div>
-      <button id="quiz">Start Quiz</button>
-      <button id="submit">Get Results</button>
+    <div id="welcome-page">
+      <h1>Welcome to The Coding Quiz!</h1>
+      <h2>Click the Start button to begin.</h2>
+      <h3>
+        HEADS UP: The timer will subtract time if you answer incorrectly. Try to
+        get as many correct as you can and leave your initials at the end.
+      </h3>
+      <div>
+        <button id="quiz-button" display="!startedQuiz" onclick="startQuiz()">
+          Start Quiz
+        </button>
+        <button id="submit">Get Results</button>
+      </div>
+    </div>
+    <div id="quiz">
+      <h1 id="current-question"></h1>
+      <button id="option-a" onClick="isCorrectAnswer(event)"></button>
+      <button id="option-b" onClick="isCorrectAnswer(event)"></button>
+      <button id="option-c" onClick="isCorrectAnswer(event)"></button>
+      <button id="option-d" onClick="isCorrectAnswer(event)"></button>
     </div>
     <!-- <button id="results">Results</button> -->
     <!-- 
@@ -30,11 +41,11 @@
       <h3>correct</h3>
 
 
-    <script src="script.js"></script>
+    
   </body>
-</html>
-
-<!-- //place headers for timers //h1 for incorrect or correct -->
+</html> -->
+    <script src="script.js"></script>
+    <!-- //place headers for timers //h1 for incorrect or correct -->
     <!-- Make sure you have an intro that tells about the quiz and how the timer will subtract time on wrong answers, then a start button -->
   </body>
 </html>
