@@ -1,33 +1,15 @@
-// var timeLeft = 5;
-// var element = document.getElementsByClassName("timer");
-
-// var timeEl;
-
-// var timerId = setInterval(countdown, 1000);
-// function countdown() {
-//   if (timeLeft === 0) {
-//     confirm("Times Up!");
-//     return;
-//   } else {
-//     element.innerHtml = timeLeft + " seconds remaining.";
-//     timeLeft--;
-//   }
-//   console.log(timeLeft);
-// }
-
-var secondsLeft = 75;
-//var timeInterval = setInterval();
+var timeleft = 60;
 var startedQuiz = false;
 var count = 1;
-
-function setTime() {
-  // secondsLeft--
-  timeInterval.textContent = secondsLeft + " seconds left till quiz is over.";
-  if (secondsLeft === 0) {
-    clearInterval(timeInterval);
-    endQuiz();
-  }
-}
+var initials = "";
+var highScores = [];
+var stopTime;
+element = document.querySelector("#quiz");
+element.style.visibility = "hidden";
+element = document.querySelector("#save-score");
+element.style.visibility = "hidden";
+element = document.querySelector("#high-scores");
+element.style.visibility = "hidden";
 
 var allQuestions = [
   {
@@ -107,23 +89,65 @@ function startQuiz() {
   document.getElementById("option-d").innerHTML = allQuestions[0].showAnswers.D;
   element = document.querySelector("#quiz");
   element.style.visibility = "visible";
+  startTimer();
+}
+
+function startTimer() {
+  timeleft = 10;
+  element = document.querySelector("#timer");
+  var downloadTimer = setInterval(function () {
+    if (timeleft <= 1) {
+      clearInterval(downloadTimer);
+      outOfTime();
+    }
+    document.getElementById("timer").innerHTML = timeleft - 1;
+    timeleft -= 1;
+    console.log(timeleft);
+  }, 1000);
 }
 
 function isCorrectAnswer(answer) {
   var selectedAnswer = answer.srcElement.innerHTML.toString();
   var actualAnswer = allQuestions[count - 1].correctAnswer.toString();
+  count++;
+  var index = count - 1;
 
   if (selectedAnswer == actualAnswer) {
     console.log("Right");
-    count++;
     if (count <= 6) {
-      index = count - 1;
       nextQuestion(index);
     }
   } else {
     console.log("Wrong - timer decreases");
-    //decreaseTimer
+    timeleft = timeleft - 5;
+    nextQuestion(index);
   }
+}
+
+function outOfTime() {
+  stopTime = 0;
+  console.log("WE ARE OUT OF TIME");
+  document.getElementById("final-score").innerHTML =
+    "Your final score is: " + 0;
+  element = document.querySelector("#quiz");
+  element.style.visibility = "hidden";
+  element = document.querySelector("#save-score");
+  element.style.visibility = "visible";
+}
+
+function saveResults() {
+  initials = document.getElementById("initials").value;
+  highScores.push(initials, stopTime);
+  console.log("high scores" + highScores);
+  element = document.querySelector("#save-score");
+  element.style.visibility = "hidden";
+  viewHighScores();
+}
+
+function viewHighScores() {
+  element = document.querySelector("#high-scores");
+  element.style.visibility = "visible";
+  //need to iterate through highScores array
 }
 
 function nextQuestion(index) {
@@ -144,32 +168,8 @@ function nextQuestion(index) {
   element.style.visibility = "visible";
 }
 
-function showQuestions(questions, quizContainer) {
-  var output = [];
-  var answers;
+/*Questions:
+1. How to iterate through the highScores array for each highScore to put it in the list
+2. How to adjust spacing, right now I am hiding attributes.  Is there a better way? */
 
-  function allQuestions() {
-    var questions = allQuestions();
-
-    function showResults(questions, quizContainer, resultContainer) {
-      var answerContainers = quizContainer.querySelectorAll(".answers");
-    }
-  }
-}
-
-// var stats = confirm();
-// //need to make points for each question??
-// //need to be able to add initials once timer/game is over
-// //ask to play again?
-
-// var again = confirm("Would you like to play again?");
-// if (again) {
-//   game();
-// }
-// game();
-
-// start.addEventListener("click", startButton);
-
-//need to make a listenClick button for which is clicked and if it is wrong or right
-
-//If clock reaches 0, then score would be 0. If there is time left by the end of the quiz, then the remaining time would be the score
+/*Needs to show high scores at the end and have button options (Try again/Go back and Clear high scores)*/

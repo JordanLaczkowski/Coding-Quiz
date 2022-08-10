@@ -28,11 +28,26 @@
       </div>
     </div>
     <div id="quiz">
+      <h1 id="timer"></h1>
       <h1 id="current-question"></h1>
       <button id="option-a" onClick="isCorrectAnswer(event)"></button>
       <button id="option-b" onClick="isCorrectAnswer(event)"></button>
       <button id="option-c" onClick="isCorrectAnswer(event)"></button>
       <button id="option-d" onClick="isCorrectAnswer(event)"></button>
+    </div>
+    <div id="save-score">
+      <h1>
+        You have completed the quiz, please enter your initials to save your
+        score:
+      </h1>
+      <h1 id="final-score"></h1>
+      <input id="initials" />
+      <button id="save-button" onclick="saveResults()">Save</button>
+    </div>
+
+    <div id="high-scores">
+      <h1>High Scores</h1>
+      <li id="scores"></li>
     </div>
     <!-- <button id="results">Results</button> -->
     <!-- 
