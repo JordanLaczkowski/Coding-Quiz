@@ -11,6 +11,8 @@ element.style.visibility = "hidden";
 element = document.querySelector("#high-scores");
 element.style.visibility = "hidden";
 
+var topScores = document.querySelector("#top-scores");
+
 var allQuestions = [
   {
     showQuestions: "What does API stand for?",
@@ -137,7 +139,8 @@ function outOfTime() {
 
 function saveResults() {
   initials = document.getElementById("initials").value;
-  highScores.push(initials, stopTime);
+  var score = initials + " " + stopTime;
+  highScores.push(score);
   console.log("high scores" + highScores);
   element = document.querySelector("#save-score");
   element.style.visibility = "hidden";
@@ -147,7 +150,12 @@ function saveResults() {
 function viewHighScores() {
   element = document.querySelector("#high-scores");
   element.style.visibility = "visible";
-  //need to iterate through highScores array
+  for (var i = 0; i < highScores.length; i++) {
+    var indexPoint = highScores[i];
+    var newLi = document.createElement("li");
+    newLi.textContent = indexPoint;
+    topScores.appendChild(newLi);
+  }
 }
 
 function nextQuestion(index) {
@@ -170,6 +178,9 @@ function nextQuestion(index) {
 
 /*Questions:
 1. How to iterate through the highScores array for each highScore to put it in the list
-2. How to adjust spacing, right now I am hiding attributes.  Is there a better way? */
+2. How to adjust spacing, right now I am hiding attributes.  Is there a better way? -- display none */
 
-/*Needs to show high scores at the end and have button options (Try again/Go back and Clear high scores)*/
+//
+
+/*Needs to show high scores at the end and have button options (Try again/Go back and Clear high scores)
+Show if you got the answer correct or incorrect when you choose your answer*/
