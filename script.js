@@ -1,17 +1,23 @@
-var timeleft = 60;
-var startedQuiz = false;
-var count = 1;
+var timeLeft = 60;
+var count;
 var initials = "";
 var highScores = [];
 var stopTime;
-element = document.querySelector("#quiz");
-element.style.visibility = "hidden";
-element = document.querySelector("#save-score");
-element.style.visibility = "hidden";
-element = document.querySelector("#high-scores");
-element.style.visibility = "hidden";
-
-var topScores = document.querySelector("#top-scores");
+var rightAnswer = "Correct";
+var wrongAnswer = "Incorrect";
+var timer;
+quizEl = document.querySelector("#quiz");
+quizEl.style.visibility = "hidden";
+saveScoreEl = document.querySelector("#save-score");
+saveScoreEl.style.visibility = "hidden";
+highScoresEl = document.querySelector("#high-scores");
+highScoresEl.style.visibility = "hidden";
+var feedbackEl = document.querySelector("#feedback");
+feedbackEl.style.visibility = "hidden";
+var welcomeEl = document.querySelector("#welcome-page");
+welcomeEl.style.visibility = "visible";
+var topScoresEl = document.querySelector("#top-scores");
+var initialEl = document.querySelector("#initials");
 
 var allQuestions = [
   {
@@ -77,11 +83,35 @@ var allQuestions = [
   },
 ];
 
+function startTimer() {
+  timer = setInterval(function () {
+    if (timeLeft <= 1) {
+      clearInterval(timer);
+      outOfTime();
+    }
+    document.getElementById("timer").innerHTML = timeLeft - 1;
+    timeLeft -= 1;
+    // console.log(timeLeft);
+  }, 1000);
+}
+
+function stopTimer() {
+  clearInterval(timer);
+}
+
+function clearStart() {
+  count = 1;
+  highScoresEl.style.visibility = "hidden";
+  topScoresEl.innerHTML = "";
+}
+
 function startQuiz() {
-  element = document.querySelector("#welcome-page");
-  element.style.visibility = "hidden";
+  clearStart();
+  count = 1;
+  startTimer();
+  welcomeEl.style.visibility = "hidden";
   var currentQuestion;
-  console.log(allQuestions);
+  // console.log(allQuestions);
   currentQuestion = allQuestions[0].showQuestions;
   document.getElementById("current-question").innerHTML =
     count + ". " + currentQuestion;
@@ -89,23 +119,8 @@ function startQuiz() {
   document.getElementById("option-b").innerHTML = allQuestions[0].showAnswers.B;
   document.getElementById("option-c").innerHTML = allQuestions[0].showAnswers.C;
   document.getElementById("option-d").innerHTML = allQuestions[0].showAnswers.D;
-  element = document.querySelector("#quiz");
-  element.style.visibility = "visible";
-  startTimer();
-}
-
-function startTimer() {
-  timeleft = 10;
-  element = document.querySelector("#timer");
-  var downloadTimer = setInterval(function () {
-    if (timeleft <= 1) {
-      clearInterval(downloadTimer);
-      outOfTime();
-    }
-    document.getElementById("timer").innerHTML = timeleft - 1;
-    timeleft -= 1;
-    console.log(timeleft);
-  }, 1000);
+  timeLeft = 60;
+  quizEl.style.visibility = "visible";
 }
 
 function isCorrectAnswer(answer) {
@@ -115,52 +130,79 @@ function isCorrectAnswer(answer) {
   var index = count - 1;
 
   if (selectedAnswer == actualAnswer) {
-    console.log("Right");
+    feedbackEl.style.visibility = "hidden";
+    // console.log("Right");
     if (count <= 6) {
+      document.getElementById("feedback").innerHTML = rightAnswer;
+      feedbackEl.style.visibility = "visible";
       nextQuestion(index);
+    } else {
+      endQuiz();
     }
   } else {
-    console.log("Wrong - timer decreases");
-    timeleft = timeleft - 5;
-    nextQuestion(index);
+    if (count <= 6) {
+      // console.log("Wrong - timer decreases");
+      timeLeft = timeLeft - 15;
+      document.getElementById("feedback").innerHTML = wrongAnswer;
+      feedbackEl.style.visibility = "visible";
+      nextQuestion(index);
+    } else {
+      endQuiz();
+    }
   }
+}
+//add an alert or something to show that you answered correctly or incorrectly
+
+function endQuiz() {
+  stopTime = timeLeft;
+  quizEl.style.visibility = "hidden";
+  feedbackEl.style.visibility = "hidden";
+  stopTimer();
+  // console.log(timeLeft);
+  document.getElementById("final-score").innerHTML =
+    "Your final score is: " + stopTime;
+  saveScoreEl.style.visibility = "visible";
+  //stop the time
+  // saveResults
 }
 
 function outOfTime() {
+  feedbackEl.style.visibility = "hidden";
   stopTime = 0;
-  console.log("WE ARE OUT OF TIME");
+  // console.log("WE ARE OUT OF TIME");
   document.getElementById("final-score").innerHTML =
-    "Your final score is: " + 0;
-  element = document.querySelector("#quiz");
-  element.style.visibility = "hidden";
-  element = document.querySelector("#save-score");
-  element.style.visibility = "visible";
+    "Your final score is: " + stopTime;
+  quizEl.style.visibility = "hidden";
+  saveScoreEl.style.visibility = "visible";
 }
+//add something here to stop time when quiz is completed
 
 function saveResults() {
   initials = document.getElementById("initials").value;
   var score = initials + " " + stopTime;
   highScores.push(score);
-  console.log("high scores" + highScores);
-  element = document.querySelector("#save-score");
-  element.style.visibility = "hidden";
+  // console.log("high scores" + highScores);
+  saveScoreEl.style.visibility = "hidden";
   viewHighScores();
 }
 
 function viewHighScores() {
-  element = document.querySelector("#high-scores");
-  element.style.visibility = "visible";
+  highScoresEl.style.visibility = "visible";
   for (var i = 0; i < highScores.length; i++) {
     var indexPoint = highScores[i];
     var newLi = document.createElement("li");
     newLi.textContent = indexPoint;
-    topScores.appendChild(newLi);
+    topScoresEl.appendChild(newLi);
   }
 }
 
+function homeClicked() {
+  highScoresEl.style.visibility = "hidden";
+  welcomeEl.style.visibility = "visible";
+}
+
 function nextQuestion(index) {
-  element = document.querySelector("#quiz");
-  element.style.visibility = "hidden";
+  quizEl.style.visibility = "hidden";
   currentQuestion = allQuestions[index].showQuestions;
   document.getElementById("current-question").innerHTML =
     count + ". " + currentQuestion;
@@ -172,8 +214,7 @@ function nextQuestion(index) {
     allQuestions[index].showAnswers.C;
   document.getElementById("option-d").innerHTML =
     allQuestions[index].showAnswers.D;
-  element = document.querySelector("#quiz");
-  element.style.visibility = "visible";
+  quizEl.style.visibility = "visible";
 }
 
 /*Questions:
@@ -183,4 +224,5 @@ function nextQuestion(index) {
 //
 
 /*Needs to show high scores at the end and have button options (Try again/Go back and Clear high scores)
-Show if you got the answer correct or incorrect when you choose your answer*/
+Show if you got the answer correct or incorrect when you choose your answer
+NEED TO ADD - after answering last question, the quiz and timer does not stop*/

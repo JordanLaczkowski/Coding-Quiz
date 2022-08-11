@@ -24,7 +24,7 @@
         <button id="quiz-button" display="!startedQuiz" onclick="startQuiz()">
           Start Quiz
         </button>
-        <button id="submit">Get Results</button>
+        <!-- <button id="submit">Get Results</button> -->
       </div>
     </div>
     <div id="quiz">
@@ -34,6 +34,7 @@
       <button id="option-b" onClick="isCorrectAnswer(event)"></button>
       <button id="option-c" onClick="isCorrectAnswer(event)"></button>
       <button id="option-d" onClick="isCorrectAnswer(event)"></button>
+      <span id="feedback"></span>
     </div>
     <div id="save-score">
       <h1>
@@ -48,7 +49,10 @@
     <div id="high-scores">
       <h1>High Scores</h1>
       <ul id="top-scores"></ul>
+      <button id="home-button" onclick="homeClicked()">Home</button>
+      <button id="restart-button" onclick="startQuiz()">Restart Quiz</button>
     </div>
+
     <!-- <button id="results">Results</button> -->
     <!-- 
       <header id="timer"></header>
