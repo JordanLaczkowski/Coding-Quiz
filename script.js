@@ -91,7 +91,6 @@ function startTimer() {
     }
     document.getElementById("timer").innerHTML = timeLeft - 1;
     timeLeft -= 1;
-    // console.log(timeLeft);
   }, 1000);
 }
 
@@ -111,7 +110,6 @@ function startQuiz() {
   startTimer();
   welcomeEl.style.visibility = "hidden";
   var currentQuestion;
-  // console.log(allQuestions);
   currentQuestion = allQuestions[0].showQuestions;
   document.getElementById("current-question").innerHTML =
     count + ". " + currentQuestion;
@@ -131,7 +129,6 @@ function isCorrectAnswer(answer) {
 
   if (selectedAnswer == actualAnswer) {
     feedbackEl.style.visibility = "hidden";
-    // console.log("Right");
     if (count <= 6) {
       document.getElementById("feedback").innerHTML = rightAnswer;
       feedbackEl.style.visibility = "visible";
@@ -141,7 +138,6 @@ function isCorrectAnswer(answer) {
     }
   } else {
     if (count <= 6) {
-      // console.log("Wrong - timer decreases");
       timeLeft = timeLeft - 15;
       document.getElementById("feedback").innerHTML = wrongAnswer;
       feedbackEl.style.visibility = "visible";
@@ -151,7 +147,6 @@ function isCorrectAnswer(answer) {
     }
   }
 }
-//add an alert or something to show that you answered correctly or incorrectly
 
 function endQuiz() {
   stopTime = timeLeft;
@@ -162,26 +157,21 @@ function endQuiz() {
   document.getElementById("final-score").innerHTML =
     "Your final score is: " + stopTime;
   saveScoreEl.style.visibility = "visible";
-  //stop the time
-  // saveResults
 }
 
 function outOfTime() {
   feedbackEl.style.visibility = "hidden";
   stopTime = 0;
-  // console.log("WE ARE OUT OF TIME");
   document.getElementById("final-score").innerHTML =
     "Your final score is: " + stopTime;
   quizEl.style.visibility = "hidden";
   saveScoreEl.style.visibility = "visible";
 }
-//add something here to stop time when quiz is completed
 
 function saveResults() {
   initials = document.getElementById("initials").value;
   var score = initials + " " + stopTime;
   highScores.push(score);
-  // console.log("high scores" + highScores);
   saveScoreEl.style.visibility = "hidden";
   viewHighScores();
 }
@@ -216,13 +206,3 @@ function nextQuestion(index) {
     allQuestions[index].showAnswers.D;
   quizEl.style.visibility = "visible";
 }
-
-/*Questions:
-1. How to iterate through the highScores array for each highScore to put it in the list
-2. How to adjust spacing, right now I am hiding attributes.  Is there a better way? -- display none */
-
-//
-
-/*Needs to show high scores at the end and have button options (Try again/Go back and Clear high scores)
-Show if you got the answer correct or incorrect when you choose your answer
-NEED TO ADD - after answering last question, the quiz and timer does not stop*/
